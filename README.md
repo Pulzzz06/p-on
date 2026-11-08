@@ -62,7 +62,7 @@ Then edit **`config/site.ts`** — that is the only file you need to change.
 | Grouped links | `config/site.ts` → `groups` |
 | GitHub projects | `config/site.ts` → `projects.items` |
 | Accent color, theme mode | `config/site.ts` → `theme` |
-| Avatar image | `public/avatar.jpeg` (primary) and `public/avatar.png` (fallback) |
+| Avatar image | `public/avatar.jpeg` |
 | Social preview image | `public/og.png` |
 | Favicon | `app/icon.svg` |
 
