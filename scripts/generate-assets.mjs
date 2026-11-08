@@ -51,7 +51,9 @@ const ogSvg = `<svg width="1200" height="630" viewBox="0 0 1200 630" xmlns="http
 await mkdir("public", { recursive: true });
 
 await sharp(Buffer.from(avatarSvg)).png().toFile("public/avatar.png");
+await sharp(Buffer.from(avatarSvg)).jpeg({ quality: 92 }).toFile("public/avatar.jpeg");
 await sharp(Buffer.from(ogSvg)).png().toFile("public/og.png");
 
 console.log("✓ public/avatar.png");
+console.log("✓ public/avatar.jpeg");
 console.log("✓ public/og.png");

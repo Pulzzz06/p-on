@@ -9,7 +9,7 @@ One config file, your own domain, no subscription, no watermark.
 
 ![P-On preview](./public/og.png)
 
-> Live demo: `https://p-on.vercel.app` — replace this with your own deployment.
+> Live demo: `https://pulzzz06.vercel.app` — domain sementara sampai kamu punya domain custom.
 
 ---
 
@@ -39,7 +39,7 @@ One config file, your own domain, no subscription, no watermark.
 ## Quick start
 
 ```bash
-git clone https://github.com/username/p-on.git
+git clone https://github.com/Pulzzz06/p-on.git
 cd p-on
 npm install
 npm run dev
@@ -62,7 +62,7 @@ Then edit **`config/site.ts`** — that is the only file you need to change.
 | Grouped links | `config/site.ts` → `groups` |
 | GitHub projects | `config/site.ts` → `projects.items` |
 | Accent color, theme mode | `config/site.ts` → `theme` |
-| Avatar image | `public/avatar.png` |
+| Avatar image | `public/avatar.jpeg` (primary) and `public/avatar.png` (fallback) |
 | Social preview image | `public/og.png` |
 | Favicon | `app/icon.svg` |
 
@@ -127,7 +127,7 @@ npm run assets
 
 ### Vercel (recommended)
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/username/p-on)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/Pulzzz06/p-on)
 
 Import the repo, keep the defaults, and deploy. Add your custom domain in
 **Project → Settings → Domains**, then update `meta.url`.
