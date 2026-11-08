@@ -1,1 +1,186 @@
 @import "tailwindcss";
+
+/* Dark mode dikendalikan oleh class `.dark` di <html>, bukan hanya media query. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme inline {
+  --font-sans: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-ink: var(--text);
+  --color-muted: var(--muted);
+  --color-line: var(--border);
+  --color-accent: var(--accent);
+  --color-accent-contrast: var(--accent-contrast);
+}
+
+:root {
+  --bg: #fafaf9;
+  --surface: #ffffff;
+  --surface-2: #f5f5f4;
+  --text: #18181b;
+  --muted: #71717a;
+  --border: #e7e5e4;
+  --accent: #2563eb;
+  --accent-contrast: #ffffff;
+  --shadow: 0 1px 2px rgb(0 0 0 / 0.03),
+    0 12px 30px -24px rgb(0 0 0 / 0.35);
+  color-scheme: light;
+}
+
+.dark {
+  --bg: #09090b;
+  --surface: #18181b;
+  --surface-2: #202023;
+  --text: #fafafa;
+  --muted: #a1a1aa;
+  --border: #2a2a2e;
+  --accent-contrast: #ffffff;
+  --shadow: 0 1px 2px rgb(0 0 0 / 0.35),
+    0 14px 34px -24px rgb(0 0 0 / 0.75);
+  color-scheme: dark;
+}
+
+@layer base {
+  *,
+  ::before,
+  ::after {
+    border-color: var(--border);
+  }
+
+  html {
+    background: var(--bg);
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    min-height: 100dvh;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-jakarta), ui-sans-serif, system-ui, -apple-system,
+      "Segoe UI", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  button {
+    cursor: pointer;
+  }
+
+  :focus-visible {
+    outline: 2px solid color-mix(in srgb, var(--accent) 65%, transparent);
+    outline-offset: 3px;
+  }
+}
+
+::selection {
+  background: color-mix(in srgb, var(--accent) 24%, transparent);
+}
+
+/* Cahaya accent halus di bagian atas halaman. */
+.page-glow {
+  background: radial-gradient(
+    55% 55% at 50% 0%,
+    color-mix(in srgb, var(--accent) 13%, transparent) 0%,
+    transparent 72%
+  );
+}
+
+/* Kartu link biasa. */
+.surface-card {
+  background: var(--surface);
+  box-shadow: var(--shadow);
+}
+
+.surface-card:hover {
+  border-color: color-mix(in srgb, var(--accent) 32%, var(--border));
+  box-shadow: 0 2px 4px rgb(0 0 0 / 0.04), 0 20px 44px -26px rgb(0 0 0 / 0.4);
+}
+
+.dark .surface-card:hover {
+  box-shadow: 0 2px 4px rgb(0 0 0 / 0.4), 0 22px 48px -26px rgb(0 0 0 / 0.8);
+}
+
+/* Kartu utama dengan warna accent. */
+.featured-card {
+  border-color: color-mix(in srgb, var(--accent) 60%, transparent);
+  background:
+    radial-gradient(
+      120% 160% at 0% 0%,
+      rgb(255 255 255 / 0.2),
+      transparent 55%
+    ),
+    linear-gradient(
+      135deg,
+      color-mix(in srgb, var(--accent) 88%, #000 12%),
+      var(--accent)
+    );
+  color: var(--accent-contrast);
+  box-shadow: 0 18px 40px -20px
+    color-mix(in srgb, var(--accent) 65%, transparent);
+}
+
+.featured-card:hover {
+  box-shadow: 0 22px 48px -20px
+    color-mix(in srgb, var(--accent) 78%, transparent);
+}
+
+.icon-tile {
+  background: color-mix(in srgb, var(--accent) 11%, var(--surface));
+  color: var(--accent);
+}
+
+.featured-card .icon-tile {
+  background: rgb(255 255 255 / 0.16);
+  color: var(--accent-contrast);
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  border: 1px solid var(--border);
+  border-radius: 9999px;
+  background: var(--surface);
+  padding: 0.2rem 0.6rem;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 1.4;
+  box-shadow: 0 1px 1px rgb(0 0 0 / 0.03);
+}
+
+.status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 9999px;
+  background: #22c55e;
+  box-shadow: 0 0 0 3px color-mix(in srgb, #22c55e 18%, transparent);
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-up {
+  animation: fade-up 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-fade-up {
+    animation: none;
+  }
+}

@@ -1,34 +1,209 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# P-On
 
-## Getting Started
+**A fast, minimal, open-source link-in-bio page.**
+One config file, your own domain, no subscription, no watermark.
 
-First, run the development server:
+[![License: MIT](https://img.shields.io/badge/license-MIT-2563EB.svg)](./LICENSE)
+[![Next.js](https://img.shields.io/badge/Next.js-16-000000.svg)](https://nextjs.org)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4-38BDF8.svg)](https://tailwindcss.com)
+
+![P-On preview](./public/og.png)
+
+> Live demo: `https://p-on.vercel.app` — replace this with your own deployment.
+
+---
+
+## Why another link-in-bio?
+
+- **Yours.** No account, no tracking, no branding from a third party.
+- **Fast.** One static page, minimal JavaScript, system-aware dark mode.
+- **Easy to fork.** All content lives in one typed file: `config/site.ts`.
+- **Portable.** Deploy to Vercel, Netlify, Cloudflare Pages, or GitHub Pages.
+
+---
+
+## Features
+
+- Profile: avatar, name, handle, headline, bio, location, availability badge
+- Social icons (GitHub, Instagram, X, LinkedIn, YouTube, TikTok, email)
+- Featured link cards + grouped links
+- GitHub project showcase with language colors and stars
+- Light / dark / system theme with one accent color
+- Share button (Web Share API + clipboard fallback)
+- SEO metadata, JSON-LD, Open Graph image, favicon
+- Accessible focus states and reduced-motion support
+- Static export support for free hosting anywhere
+
+---
+
+## Quick start
 
 ```bash
+git clone https://github.com/username/p-on.git
+cd p-on
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open <http://localhost:3000>.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Then edit **`config/site.ts`** — that is the only file you need to change.
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+## Make it yours
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+| What | Where |
+|---|---|
+| Name, handle, bio, avatar | `config/site.ts` → `profile` |
+| Page title, description, URL | `config/site.ts` → `meta` |
+| Social links | `config/site.ts` → `socials` |
+| Main links | `config/site.ts` → `links` |
+| Grouped links | `config/site.ts` → `groups` |
+| GitHub projects | `config/site.ts` → `projects.items` |
+| Accent color, theme mode | `config/site.ts` → `theme` |
+| Avatar image | `public/avatar.png` |
+| Social preview image | `public/og.png` |
+| Favicon | `app/icon.svg` |
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Add a link
 
-## Deploy on Vercel
+```ts
+{
+  id: "newsletter",
+  label: "Newsletter",
+  description: "Catatan mingguan tentang frontend",
+  url: "https://example.com/newsletter",
+  icon: "mail",
+  badge: "Baru",
+}
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Add a project
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```ts
+{
+  repo: "my-project",
+  name: "My Project",
+  description: "A short description of what it does.",
+  language: "TypeScript",
+  stars: 12,
+  url: "https://github.com/username/my-project",
+  demo: "https://my-project.vercel.app",
+}
+```
+
+Set `visible: false` to hide a link without deleting it. Set `featured: true` to make a link card use the accent background.
+
+---
+
+## Theming
+
+The default preset is **stone** with a blue accent. Change it in `config/site.ts`:
+
+```ts
+theme: {
+  preset: "stone",
+  mode: "system",   // "light" | "dark" | "system"
+  accent: "#2563EB",
+  font: "jakarta",
+  radius: "md",
+  background: "plain",
+}
+```
+
+The accent color is applied through CSS variables, so one change updates
+buttons, icons, focus rings, and the featured card.
+
+Regenerate the placeholder avatar and OG image after changing the brand:
+
+```bash
+npm run assets
+```
+
+---
+
+## Deploy
+
+### Vercel (recommended)
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/username/p-on)
+
+Import the repo, keep the defaults, and deploy. Add your custom domain in
+**Project → Settings → Domains**, then update `meta.url`.
+
+### Netlify
+
+- Build command: `npm run build`
+- Publish directory: `.next` (Netlify's Next.js runtime handles it)
+
+### Cloudflare Pages
+
+- Framework preset: **Next.js**
+- Build command: `npm run build`
+
+### GitHub Pages (static export)
+
+```bash
+STATIC_EXPORT=1 npm run build
+```
+
+Upload the `out/` folder to any static host. If the site lives at
+`https://username.github.io/p-on`, set the base path at build time:
+
+```bash
+STATIC_EXPORT=1 NEXT_PUBLIC_BASE_PATH=/p-on npm run build
+```
+
+On Windows PowerShell:
+
+```powershell
+$env:STATIC_EXPORT="1"; $env:NEXT_PUBLIC_BASE_PATH="/p-on"; npm run build
+```
+
+> Static export uses unoptimized images and a static OG image. That is expected.
+
+---
+
+## Scripts
+
+| Command | Description |
+|---|---|
+| `npm run dev` | Start the development server |
+| `npm run build` | Production build |
+| `npm run start` | Serve the production build |
+| `npm run lint` | Run ESLint |
+| `npm run typecheck` | Run TypeScript without emitting |
+| `npm run assets` | Regenerate `public/avatar.png` and `public/og.png` |
+
+---
+
+## Project structure
+
+```text
+app/                 Routes, layout, metadata, global styles
+components/          UI components
+config/site.ts       Your content — edit this
+lib/                 Types, icons, theme helpers
+public/              Avatar and OG image
+scripts/             Asset generator
+```
+
+---
+
+## License
+
+MIT © Pule Online. See [LICENSE](./LICENSE).
+
+---
+
+## Bahasa Indonesia
+
+Ringkasan cepat:
+
+1. `npm install`
+2. Ubah `config/site.ts` (profil, sosial, link, proyek, tema).
+3. `npm run dev` untuk melihat hasilnya.
+4. Deploy ke Vercel, atau `STATIC_EXPORT=1 npm run build` untuk hosting statis.
+
+Tidak perlu database, login, atau langganan. Semua konten ada di satu file.
